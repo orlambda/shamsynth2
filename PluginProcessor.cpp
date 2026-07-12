@@ -3,14 +3,15 @@
 
 //==============================================================================
 AudioPluginAudioProcessor::AudioPluginAudioProcessor()
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       )
+    : AudioProcessor (BusesProperties()
+         #if ! JucePlugin_IsMidiEffect
+          #if ! JucePlugin_IsSynth
+           .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
+          #endif
+           .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
+         #endif
+           ),
+    parameters(*this, nullptr, juce::Identifier{JucePlugin_Name}, makeParameterLayout())
 {
 }
 
@@ -185,4 +186,11 @@ void AudioPluginAudioProcessor::setStateInformation (const void* data, int sizeI
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new AudioPluginAudioProcessor();
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout AudioPluginAudioProcessor::makeParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout{
+    };
+    return layout;
 }
